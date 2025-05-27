@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import UploadPDF from "./components/UploadPDF";
 import { useRef } from 'react';
@@ -28,7 +28,7 @@ export default function Home() {
               onClick={scrollToUpload}
               className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full font-medium hover:opacity-90 transition-opacity cursor-pointer"
             >
-              Get Started Free
+              Get Started
             </button>
             <Link
               href="/about"
