@@ -9,6 +9,12 @@ import { toast } from 'react-hot-toast';
 export default function UploadPDF() {
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasUsedFreeGen, setHasUsedFreeGen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('hasUsedFreeGeneration') === 'true';
+    }
+    return false;
+  });
   const { isSignedIn } = useUser();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -28,13 +34,14 @@ export default function UploadPDF() {
   });
 
   const handleMerge = async () => {
-    if (!isSignedIn) {
-      toast.error('Please sign in to merge PDFs');
+    if (files.length < 2) {
+      toast.error('Please select at least 2 PDF files to merge');
       return;
     }
 
-    if (files.length < 2) {
-      toast.error('Please select at least 2 PDF files to merge');
+    // Check if user has used their free generation and is not signed in
+    if (hasUsedFreeGen && !isSignedIn) {
+      toast.error('You have used your free generation. Please sign in to continue.');
       return;
     }
 
@@ -61,6 +68,12 @@ export default function UploadPDF() {
       // Cleanup
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      
+      // If this was a free generation, mark it as used
+      if (!isSignedIn) {
+        localStorage.setItem('hasUsedFreeGeneration', 'true');
+        setHasUsedFreeGen(true);
+      }
       
       toast.success('PDFs merged successfully!');
       setFiles([]);
@@ -125,14 +138,19 @@ export default function UploadPDF() {
           ))}
           <button
             onClick={handleMerge}
-            disabled={isLoading || !isSignedIn}
-            className={`w-full mt-4 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full transition-all ${isLoading || !isSignedIn ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 cursor-pointer'}`}
+            disabled={isLoading || (!isSignedIn && hasUsedFreeGen)}
+            className={`w-full mt-4 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full transition-all ${isLoading || (!isSignedIn && hasUsedFreeGen) ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 cursor-pointer'}`}
           >
-            {isLoading ? 'Merging...' : !isSignedIn ? 'Sign in to Merge PDFs' : 'Merge PDFs'}
+            {isLoading ? 'Merging...' : 'Merge PDFs'}
           </button>
-          {!isSignedIn && (
+          {!isSignedIn && hasUsedFreeGen && (
             <p className="text-sm text-gray-400 text-center mt-2">
-              Please sign in to merge PDF files
+              You have used your free generation. Please sign in to merge more PDFs.
+            </p>
+          )}
+          {!isSignedIn && !hasUsedFreeGen && (
+            <p className="text-sm text-gray-400 text-center mt-2">
+              Try for free! Sign in to merge unlimited PDFs.
             </p>
           )}
         </div>
