@@ -9,7 +9,7 @@ export default function About() {
           </h1>
           <div className="prose prose-invert max-w-none">
             <p className="text-xl text-gray-300 mb-8">
-              DocuBind is your trusted solution for seamless PDF merging. We understand the challenges of managing multiple PDF documents, which is why we've created a powerful yet simple tool to help you combine your files effortlessly.
+              DocuBind is your trusted solution for seamless PDF merging. We understand the challenges of managing multiple PDF documents, which is why we have created a powerful yet simple tool to help you combine your files effortlessly.
             </p>
             
             <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
@@ -30,6 +30,7 @@ export default function About() {
             <p className="text-gray-300">
               Built with cutting-edge technology, DocuBind leverages advanced algorithms to ensure your PDFs are merged with precision while maintaining the highest quality. Our platform is constantly evolving to meet the growing needs of our users.
             </p>
+            <p>It&apos;s easy to use and secure.</p>
           </div>
         </div>
       </div>

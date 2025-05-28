@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 export default function UploadPDF() {
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Filter for PDF files and size limit

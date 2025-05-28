@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -15,11 +15,23 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
+  // Handle body scroll lock
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   return (
     <header className="fixed w-full backdrop-blur-md bg-black/50 z-50 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2 pl-2">
             <svg
               className="h-8 w-8"
               viewBox="0 0 24 24"
@@ -49,35 +61,64 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <div className="flex space-x-6">
-              <Link 
-                href="/" 
-                className={`transition-colors ${pathname === '/' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/about" 
-                className={`transition-colors ${pathname === '/about' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
-              >
-                About
-              </Link>
-              <Link 
-                href="/contact" 
-                className={`transition-colors ${pathname === '/contact' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
-              >
-                Contact
-              </Link>
-            </div>
-            <div className="flex items-center space-x-4">
-              <SignedOut>
-                <SignInButton mode="modal" />
-                <SignUpButton mode="modal" />
-              </SignedOut>
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
+          <nav className="hidden md:flex w-full">
+            <div className="flex justify-between items-center w-full">
+              <div className="w-32">
+                {/* Left spacer */}
+              </div>
+              
+              {/* Centered Links */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-10">
+                <Link 
+                  href="/" 
+                  className={`transition-colors ${pathname === '/' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
+                >
+                  Home
+                </Link>
+                <Link 
+                  href="/about" 
+                  className={`transition-colors ${pathname === '/about' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
+                >
+                  About
+                </Link>
+                <Link 
+                  href="/contact" 
+                  className={`transition-colors ${pathname === '/contact' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
+                >
+                  Contact
+                </Link>
+              </div>
+
+              {/* Sign in/up on the right */}
+              <div className="w-32 flex justify-end">
+                <div className="flex items-center space-x-4">
+                  <SignedOut>
+                    <SignInButton
+                      mode="modal"
+                      // @ts-ignore
+                      appearance={{
+                        elements: {
+                          button: "bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium transition-colors cursor-pointer hover:opacity-80"
+                        }
+                      }}
+                      children={<span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium cursor-pointer">Sign in</span>}
+                    />
+                    <SignUpButton
+                      mode="modal"
+                      // @ts-ignore
+                      appearance={{
+                        elements: {
+                          button: "bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium transition-colors cursor-pointer hover:opacity-80"
+                        }
+                      }}
+                      children={<span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium cursor-pointer">Sign up</span>}
+                    />
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton afterSignOutUrl="/" />
+                  </SignedIn>
+                </div>
+              </div>
             </div>
           </nav>
 
@@ -115,31 +156,33 @@ export default function Navbar() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4">
-            <nav className="flex flex-col space-y-4">
-              <Link 
-                href="/" 
-                className={`transition-colors ${pathname === '/' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/about" 
-                className={`transition-colors ${pathname === '/about' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
-                href="/contact" 
-                className={`transition-colors ${pathname === '/contact' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
-              <div className="pt-4 border-t border-gray-700">
+            <nav>
+              <div className="flex flex-col items-center justify-center space-y-4">
+                <Link 
+                  href="/" 
+                  className={`transition-colors ${pathname === '/' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link 
+                  href="/about" 
+                  className={`transition-colors ${pathname === '/about' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  About
+                </Link>
+                <Link 
+                  href="/contact" 
+                  className={`transition-colors ${pathname === '/contact' ? 'text-white font-medium' : 'text-gray-300 hover:text-white'}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Contact
+                </Link>
+              </div>
+              <div className="pt-4 border-t border-gray-700 w-full flex flex-col items-center">
                 <SignedOut>
-                  <div className="flex flex-col space-y-4">
+                  <div className="flex flex-col space-y-4 w-full items-center">
                     <SignInButton mode="modal" />
                     <SignUpButton mode="modal" />
                   </div>

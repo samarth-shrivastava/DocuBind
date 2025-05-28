@@ -18,7 +18,8 @@ export default function Contact() {
     };
 
     try {
-      const response = await fetch('https://formspree.io/f/samarthshrivastav03@gmail.com', {
+      // Replace YOUR_FORM_ID with the actual form ID from Formspree
+      const response = await fetch('https://formspree.io/f/xgvkgygj', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +33,8 @@ export default function Contact() {
       } else {
         throw new Error('Failed to send message');
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Contact form error:', err);
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -49,7 +51,7 @@ export default function Contact() {
               Get in Touch
             </h1>
             <p className="text-xl text-gray-300 text-center max-w-2xl mx-auto mb-12">
-              Have questions about DocuBind? We're here to help. Send us a message and we'll get back to you as soon as possible.
+              Have questions about DocuBind? We are here to help. Send us a message and we will get back to you as soon as possible.
             </p>
 
             <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-lg border border-white/10">

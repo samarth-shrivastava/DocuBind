@@ -13,7 +13,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
             >
-              My Github
+              Github
             </a>
             <a
               href="https://www.linkedin.com/in/samarth-shrivastava-276904251/"
@@ -21,7 +21,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
             >
-              My LinkedIn
+              LinkedIn
             </a>
           </div>
         </div>
