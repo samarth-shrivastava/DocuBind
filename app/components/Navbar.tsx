@@ -93,26 +93,17 @@ export default function Navbar() {
               <div className="w-32 flex justify-end">
                 <div className="flex items-center space-x-4">
                   <SignedOut>
-                    <SignInButton
-                      mode="modal"
-                      // @ts-ignore
-                      appearance={{
-                        elements: {
-                          button: "bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium transition-colors cursor-pointer hover:opacity-80"
-                        }
-                      }}
-                      children={<span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium cursor-pointer">Sign in</span>}
-                    />
-                    <SignUpButton
-                      mode="modal"
-                      // @ts-ignore
-                      appearance={{
-                        elements: {
-                          button: "bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium transition-colors cursor-pointer hover:opacity-80"
-                        }
-                      }}
-                      children={<span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium cursor-pointer">Sign up</span>}
-                    />
+                    <SignInButton mode="modal">
+                      <button className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium transition-colors cursor-pointer hover:opacity-80">
+                        Sign in
+                      </button>
+                    </SignInButton>
+                    
+                    <SignUpButton mode="modal">
+                      <button className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-medium transition-colors cursor-pointer hover:opacity-80">
+                        Sign up
+                      </button>
+                    </SignUpButton>
                   </SignedOut>
                   <SignedIn>
                     <UserButton afterSignOutUrl="/" />
